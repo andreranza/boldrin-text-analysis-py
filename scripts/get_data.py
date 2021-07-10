@@ -5,6 +5,15 @@ from googleapiclient.discovery import build
 
 yt_key = os.environ.get('YT_API_PSW')
 
+def try_execute(request_obj):
+    """Execute the request and get a response."""
+    try:
+        ch_resp = request_obj.execute()
+    except HttpError as e:
+        print('Error response status code : {0}, reason : {1}'.format(e.status_code, e.error_details))
+    return ch_resp
+
+
 def obtain_response(n_output, dev_key, ch_username):
     """Returns a list containing the reponses resulting
     from consecutive calls made to playlistItems() resource of the YouTube API.
@@ -19,10 +28,7 @@ def obtain_response(n_output, dev_key, ch_username):
         forUsername = ch_username
     )
 
-    try:
-        ch_resp = ch_req.execute()
-    except HttpError as e:
-        print('Error response status code : {0}, reason : {1}'.format(e.status_code, e.error_details))
+    ch_resp = try_execute(ch_req)
 
     upload_id = ch_resp['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
@@ -36,21 +42,15 @@ def obtain_response(n_output, dev_key, ch_username):
         playlistId = upload_id
     )
 
-    try:
-        pl_resp = pl_req.execute()
-    except HttpError as e:
-        print('Error response status code : {0}, reason : {1}'.format(e.status_code, e.error_details))
+    pl_resp = try_execute(pl_req)
 
-    output.append(pl_resp)
+    responses.append(pl_resp)
 
     # consecutive calls until None is returned
     while True:
         pl_req = youtube.playlistItems().list_next(pl_req, pl_resp)
         if pl_req != None:
-            try:
-                pl_resp = pl_req.execute()
-            except HttpError as e:
-                print('Error response status code : {0}, reason : {1}'.format(e.status_code, e.error_details))
+            pl_resp = try_execute(pl_req)
             output.append(pl_resp)
         else:
             break
