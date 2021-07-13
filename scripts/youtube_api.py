@@ -41,7 +41,7 @@ def get_video_id(service_obj, upload_id):
 
     # list next returns None when there is not
     while True:
-        pl_req = youtube.playlistItems().list_next(pl_req, pl_resp)
+        pl_req = service_obj.playlistItems().list_next(pl_req, pl_resp)
         if pl_req != None:
             pl_resp = try_execute(pl_req)
             id = pl_resp['items'][0]['snippet']['resourceId']['videoId']
@@ -50,40 +50,15 @@ def get_video_id(service_obj, upload_id):
             break
     return video_id
 
-
-def get_video_data(service_obj, video_id):
-
+def get_response(service_obj, video_id):
+    """Get JSON response from service"""
     vid_req = service_obj.videos().list(
-        part = 'contentDetails, snippet, statistics, recordingDetails',
-        id = video_id
-    )
-
+            part = 'contentDetails, snippet, statistics, recordingDetails',
+            id = video_id
+            )
     vid_resp = try_execute(vid_req)
+    return vid_resp
 
-    items = vid_resp['items'][0]
-    snippet = items['snippet']
-    content_details = items['contentDetails']
-    stats = items['statistics']
-    rec_details = items['recordingDetails']
-
-    video_data = dict()
-
-    video_data['title'] = snippet['title']
-    video_data['publish_date'] = snippet['publishedAt']
-    video_data['description'] = snippet['description']
-    video_data['ch_title'] = snippet['channelTitle']
-    video_data['cat_id'] = snippet['categoryId']
-    video_data['is_live'] = snippet['liveBroadcastContent']
-    video_data['language'] = snippet['defaultAudioLanguage']
-    video_data['duration'] = content_details['duration']
-    video_data['definition'] = content_details['definition']
-    video_data['views'] = stats['viewCount']
-    video_data['likes'] = stats['likeCount']
-    video_data['dislikes'] = stats['dislikeCount']
-    video_data['comments'] = stats['commentCount']
-    video_data['rec_date'] = rec_details['recordingDate']
-
-    return video_data
 
 if __name__ == '__main__':
 
@@ -107,16 +82,5 @@ if __name__ == '__main__':
 
     video_data = get_video_data(youtube, video_id[0])
     print(video_data)
-
-    video_data = DataFrame(
-        video_data,
-        columns = ['title', 'publish_date', 'description', 'ch_title', 'cat_id',
-                    'is_live', 'language', 'duration', 'definition', 'views', 'likes',
-                    'dislikes', 'comments', 'rec_date'],
-        index = [0]
-    )
-    print(video_data)
-
-    video_data.to_csv('data/trial-video.csv', sep = ';', index = False)
 
     youtube.close()
