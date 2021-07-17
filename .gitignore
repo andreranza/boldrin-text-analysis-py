@@ -5,5 +5,4 @@ scripts/__pycache__
 *.json
 *.txt
 *.csv
-
-
+*.config
