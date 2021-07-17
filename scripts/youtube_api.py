@@ -50,6 +50,7 @@ def get_video_id(service_obj, upload_id):
             break
     return video_id
 
+
 def get_response(service_obj, video_id):
     """Get JSON response from service"""
     vid_req = service_obj.videos().list(
@@ -59,12 +60,13 @@ def get_response(service_obj, video_id):
     vid_resp = try_execute(vid_req)
     return vid_resp
 
-
 if __name__ == '__main__':
 
     import os
     from googleapiclient.discovery import build
     from pandas import DataFrame
+    from random import sample
+    from pprint import pprint
 
     # obtain dev key at: https://console.cloud.google.com/
     dev_key = os.environ.get('YT_API_PSW')
@@ -77,10 +79,15 @@ if __name__ == '__main__':
     upload_id = get_upload_id(youtube, 'UCMOiTfbUXxUFqJJtCQGHrrA')
     print(upload_id)
 
+    # list of id values
     video_id = get_video_id(youtube, upload_id)
     print(video_id)
 
-    video_data = get_video_data(youtube, video_id[0])
-    print(video_data)
+    # sample a random id from video_id collection
+    an_id = sample(video_id, 1)[0]
+    print(an_id)
+
+    video_json = get_response(youtube, video_id = an_id)
+    pprint(video_json)
 
     youtube.close()
