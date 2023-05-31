@@ -8,3 +8,5 @@ logs/
 *.txt
 *.csv
 *.config
+
+ec2.json
