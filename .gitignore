@@ -10,3 +10,6 @@ logs/
 *.config
 
 ec2.json
+.Rproj.user
+.Rhistory
+
