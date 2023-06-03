@@ -8,6 +8,7 @@ pyelt/scripts/exp.py
 # infra
 infra/*.json
 infra/*.config
+infra/*.txt
 
 # data
 data/
