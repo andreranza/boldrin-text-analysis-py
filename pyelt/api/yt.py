@@ -9,6 +9,23 @@ Find specific methods to handle YouTube service objects at:
 https://googleapis.github.io/google-api-python-client/docs/dyn/youtube_v3.html
 """
 
+import logging
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError 
+
+def call_api(yt_key, service="youtube", version="v3"):
+    """Call YouTube API
+
+    :param yt_key: YouTube API Key
+    :param service: Name of the YouTube API Service
+    :param version: Name of the YouTube API Service
+    :return: A service object
+    """
+    try:
+        build(serviceName=service, version=version, developerKey=yt_key)
+        logging.info("Call YouTube API Service")
+    except HttpError as err:
+        print(err)
 
 def try_execute(request_obj):
     """Execute the request and get a response."""

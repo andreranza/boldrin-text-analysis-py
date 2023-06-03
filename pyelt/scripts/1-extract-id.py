@@ -38,10 +38,6 @@ except FileNotFoundError:
 api_service_name = "youtube"
 api_version = "v3"
 
-# call the service
-youtube = build(serviceName=api_service_name, version=api_version, developerKey=yt_key)
-logging.info("Called the YouTube API Service")
-
 # id pointing to the playlist of uploaded video
 upload_id = yt.get_upload_id(service_obj=youtube, channel_id=CH_ID)
 logging.info("Got the upload id")
