@@ -5,10 +5,6 @@
 pyelt/envelt/
 pyelt/scripts/exp.py
 
-# relt
-.Rproj.user
-.Rhistory
-
 # infra
 infra/*.json
 infra/*.config
