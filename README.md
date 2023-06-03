@@ -3,6 +3,7 @@
 ## Getting started
 
 - Use venv
+- `source pyelt/envelt/bin/activate`
 - Add `pathto/pyelt` into `elt/pyelt/envelt/lib/python3.11/site-packages/pyelt.pth`
 
 ## Objectives
