@@ -7,7 +7,8 @@ read_yt_response <- function(file_name, data_dir = Sys.getenv("YT_API_RESP_PATH"
 }
 
 tidy_yt_response <- function(data) {
-  data |>
+  data_stats <-
+    data |>
     dplyr::filter(resource %in% c("items", "etag")) |>
     tidyr::pivot_wider(values_from = value, names_from = resource) |>
     dplyr::rename(etag1 = etag) |>
@@ -17,8 +18,24 @@ tidy_yt_response <- function(data) {
     tidyr::pivot_wider(values_from = value, names_from = items_id) |>
     tidyr::unnest_wider(
       col = c(statistics, contentDetails, snippet, recordingDetails),
-    ) |>
-    tidyr::unnest_wider(col = c(tags, localized), names_sep = "_") |>
+    )
+
+  rlang::try_fetch(
+    expr = {
+      data_stats |>
+        tidyr::unnest_wider(col = c(tags, localized), names_sep = "_") |>
+        tidy_yt_final()
+    },
+    error = function(cnd) {
+      data_stats |>
+        tidyr::unnest_wider(col = localized, names_sep = "_") |>
+        tidy_yt_final()
+    }
+  )
+}
+
+tidy_yt_final <- function(data) {
+  data |>
     tidyr::unnest_longer(col = c(kind, etag, id)) |>
     dplyr::select(-thumbnails) |>
     dplyr::rename_with(.fn = stringr::str_to_lower) |>
