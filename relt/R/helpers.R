@@ -10,6 +10,6 @@ compose_file_path <- function(file_name, data_dir) {
 
 compose_file_name <- function(..., ext = "json") {
   args <- unlist(rlang::list2(...))
-  compose_name <- str_c(args, collapse = "_")
-  str_c(compose_name, ext, sep = ".")
+  compose_name <- stringr::str_c(args, collapse = "_")
+  stringr::str_c(compose_name, ext, sep = ".")
 }
