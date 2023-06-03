@@ -27,3 +27,8 @@ tidy_yt_response <- function(data) {
     dplyr::mutate(duration_secs = as.numeric(duration), .after = duration) |>
     dplyr::mutate(across(where(is.character), stringr::str_squish))
 }
+
+read_tidy_yt <- function(path) {
+  read_yt_response(path) |>
+    tidy_yt_response()
+}
