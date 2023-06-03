@@ -5,6 +5,10 @@ from botocore.exceptions import ClientError
 from utils.read import load_json, read_config
 
 def start_ec2(path='infra/ec2.json'):
+    """Start an EC2 instance
+    
+    :param path: Path to json defining EC2 properties
+    """
     ec2_specs = load_json(path)
     id = ec2_specs['InstanceId']
     ec2 = boto3.client('ec2')
@@ -24,6 +28,10 @@ def start_ec2(path='infra/ec2.json'):
         print(err)
 
 def stop_ec2(path='infra/ec2.json'):
+    """Stop an EC2 instance
+    
+    :param path: Path to json defining EC2 properties
+    """
     ec2_specs = load_json(path)
     id = ec2_specs['InstanceId']
     ec2 = boto3.client('ec2')
