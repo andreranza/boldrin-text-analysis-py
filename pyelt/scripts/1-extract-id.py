@@ -51,36 +51,9 @@ video_id = yt.get_video_id(service_obj=youtube, upload_id=upload_id)
 logging.info("Retrieved list of videos id")
 
 # iterate through the ids to get a json response
-dataframes = list()
-for i, id in enumerate(video_id):
+for id in enumerate(video_id):
     # get response in JSON format
     video_json = yt.get_response(service_obj=youtube, video_id=id)
-
-    # fetch 'items' node that contains relevant data
-    items_node = video_json["items"][0]
-
-    # parse response
-    records = list(drill_json_down(items_node))
-
-    # create dataframe from json
-    df = pd.DataFrame.from_dict(dict(records), orient="index")
-    df = df.rename(columns={0: i})
-    df = df.transpose()
-    dataframes.append(df)
-
-# reduce list of dataframes into a single one
-videos_df = pd.concat(dataframes)
-
-# add timestams
-videos_df = videos_df.assign(timestamp=datetime.now())
-
-# extract channel name
-ch_name = videos_df.loc[1, "channelTitle"]
-export_file = "data/{0}_{1}.csv".format(str(today), ch_name).replace(" ", "")
-
-# save file
-videos_df.to_csv(export_file, index=False)
-logging.info("Saved output locally in {0}".format(export_file))
 
 # load credentials
 parser = configparser.ConfigParser()
