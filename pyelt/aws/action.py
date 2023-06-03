@@ -1,5 +1,6 @@
-import boto3
+import os
 import logging
+import boto3
 from botocore.exceptions import ClientError
 from utils.read import load_json, read_config
 
@@ -75,6 +76,46 @@ def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'
             Bucket=bucket_name, 
             CreateBucketConfiguration=location#,
             #GrantFullControl=account_full
+        )
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return True
+
+def upload_file(file_name, paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'}):
+    """Upload a file to an S3 bucket
+
+    :param file_name: File to upload
+    :return: True if file was uploaded, else False
+    """
+
+    # Get S3 properties
+    path_s3 = paths['s3']
+    s3_specs = load_json(path_s3)
+    region = s3_specs['region']
+    bucket_name = s3_specs['bucketName']
+
+    # Get AWS credentials
+    path_creds = paths['creds']
+    creds = read_config(path_creds)
+    access_key = creds['access_key']
+    secret_access = creds['secret_key']
+
+    # If S3 object_name was not specified, use file_name
+    object_name = os.path.basename(file_name)
+
+    # Upload the file
+    s3_client = boto3.client(
+        's3',
+        region_name=region,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_access
+    )
+    try:
+        response = s3_client.upload_file(
+            file_name,
+            bucket_name,
+            object_name
         )
     except ClientError as e:
         logging.error(e)
