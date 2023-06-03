@@ -13,16 +13,6 @@ logging.basicConfig(
     format=" %(asctime)s - %(levelname) s - %(message)s",
 )
 
-# retrieve API credentials
-try:
-    # yt_key = os.environ.get('YT_API_PSW')
-    with open("yt-api-psw.txt") as f:
-        yt_key = f.read().rstrip()
-except FileNotFoundError:
-    logging.warning("Not able to API credentials id locally")
-    yt_key = str(input("Please, provide the API service key: ")).rstrip()
-
-
 # retrieve channel id
 try:
     with open("channel_id.txt") as f:
