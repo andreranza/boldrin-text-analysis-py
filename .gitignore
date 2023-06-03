@@ -2,7 +2,7 @@
 
 pyelt/envelt/
 
-scripts/__pycache__
+*__pycache__*
 scripts/trials
 logs/
 
