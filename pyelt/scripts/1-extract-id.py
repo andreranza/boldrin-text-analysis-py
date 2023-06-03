@@ -1,12 +1,8 @@
-import youtube_api as yt
-import json
-import configparser
-import boto3
-import os
-import logging
-import pandas as pd
 from datetime import datetime
-from googleapiclient.discovery import build
+import logging
+import boto3
+from pyelt.utils.read import read_yt_key
+from pyelt.api import yt
 
 today = datetime.date(datetime.today())
 
