@@ -10,5 +10,6 @@ pyelt/scripts/exp.py
 .Rhistory
 
 # infra
-infra/ec2.json
+infra/*.json
+infra/*.config
 
