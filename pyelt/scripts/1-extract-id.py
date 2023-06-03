@@ -33,9 +33,9 @@ video_id = yt.get_video_id(service_obj=youtube_service, upload_id=upload_id)
 logging.info("Retrieved list of videos id")
 
 # iterate through the ids to get a json response
-for id in enumerate(video_id):
+for vid_id in enumerate(video_id):
     # get response in JSON format
-    video_json = yt.get_response(service_obj=youtube_service, video_id=id)
+    video_json = yt.get_response(service_obj=youtube_service, video_id=vid_id)
 
 s3 = boto3.client("s3", aws_access_key_id=access_key, aws_secret_access_key=secret_key)
 logging.info("Connected to S3 bucket: {0}".format(bucket_name))
