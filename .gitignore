@@ -1,17 +1,14 @@
 .DS_Store
 
-pyelt/envelt/
-
+# pyelt
 *__pycache__*
-scripts/trials
-logs/
+pyelt/envelt/
+pyelt/scripts/exp.py
 
-*.json
-*.txt
-*.csv
-*.config
-
-ec2.json
+# relt
 .Rproj.user
 .Rhistory
+
+# infra
+infra/ec2.json
 
