@@ -112,7 +112,7 @@ def upload_file(file_name, paths={'s3': 'infra/s3.json', 'creds': 'infra/pipelin
         aws_secret_access_key=secret_access
     )
     try:
-        response = s3_client.upload_file(
+        s3_client.upload_file(
             file_name,
             bucket_name,
             object_name
