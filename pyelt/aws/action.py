@@ -42,14 +42,13 @@ def stop_ec2(path='infra/ec2.json'):
     except ClientError as err:
         print(err)
 
-def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'}):
+def create_bucket(path_s3='infra/s3.json', path_creds='infra/pipeline.config'):
     """Create an S3 bucket
 
     :return: True if bucket created, else False
     """
 
     # Get S3 properties
-    path_s3 = paths['s3']
     s3_specs = load_json(path_s3)
     region = s3_specs['region']
     bucket_name = s3_specs['bucketName']
@@ -57,7 +56,6 @@ def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'
     account_full = s3_specs['grantFullControl']
 
     # Get AWS credentials
-    path_creds = paths['creds']
     creds = read_config(path_creds)
     access_key = creds['access_key']
     secret_access = creds['secret_key']
@@ -82,7 +80,7 @@ def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'
         return False
     return True
 
-def upload_file(file_name, paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'}):
+def upload_file(file_name, path_s3='infra/s3.json', path_creds='infra/pipeline.config'):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
@@ -90,13 +88,11 @@ def upload_file(file_name, paths={'s3': 'infra/s3.json', 'creds': 'infra/pipelin
     """
 
     # Get S3 properties
-    path_s3 = paths['s3']
     s3_specs = load_json(path_s3)
     region = s3_specs['region']
     bucket_name = s3_specs['bucketName']
 
     # Get AWS credentials
-    path_creds = paths['creds']
     creds = read_config(path_creds)
     access_key = creds['access_key']
     secret_access = creds['secret_key']
