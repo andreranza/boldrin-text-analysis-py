@@ -1,3 +1,4 @@
+import logging
 from json import load
 from configparser import ConfigParser
 
@@ -15,3 +16,18 @@ def read_config(path="infra/pipeline.config"):
     access_key = parser.get("aws_boto_credentials", "access_key")
     secret_key = parser.get("aws_boto_credentials", "secret_key")
     return {"access_key": access_key, "secret_key": secret_key}
+
+def read_yt_key(path="infra/youtube_api_key.txt"):
+    """Read YouTube v3 Key
+
+    :param path: Path to API key
+    :return: API Key as a str
+    """
+    try:
+        # yt_key = os.environ.get('YT_API_PSW')
+        with open(path, "r", encoding="UTF-8") as file:
+            yt_key = file.read().rstrip()
+            return yt_key
+    except FileNotFoundError:
+        logging.warning("Not able to API credentials id locally")
+        yt_key = str(input("Please, provide the API service key: ")).rstrip()
