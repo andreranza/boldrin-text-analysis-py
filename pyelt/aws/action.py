@@ -1,9 +1,9 @@
 import boto3
 from botocore.exceptions import ClientError
-from utils.read import load_json_file
+from utils.read import load_json
 
 def start_ec2(path='infra/ec2.json'):
-    ec2_specs = load_json_file(path)
+    ec2_specs = load_json(path)
     id = ec2_specs['InstanceId']
     ec2 = boto3.client('ec2')
     
@@ -22,7 +22,7 @@ def start_ec2(path='infra/ec2.json'):
         print(e)
 
 def stop_ec2(path='infra/ec2.json'):
-    ec2_specs = load_json_file(path)
+    ec2_specs = load_json(path)
     id = ec2_specs['InstanceId']
     ec2 = boto3.client('ec2')
     
