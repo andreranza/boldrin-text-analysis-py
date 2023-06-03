@@ -1,7 +1,18 @@
-# ELT Data Engineering Project
+# Data Engineering Project
 
-1. Extract video data from YouTube API
-2. Parse the JSON responses
-3. Load data in .csv format into Amazon S3 Bucket
-4. Validate data
-5. ...
+## Getting started
+
+- Use venv
+- Add `pathto/pyelt` into `elt/pyelt/envelt/lib/python3.11/site-packages/pyelt.pth`
+
+## Objectives
+
+- The purpose of `elt` is to automate a data pipeline.
+    - Use an EC2 on AWS to run the project
+    - Store raw data in a S3 bucket
+    - Load data into an RDS instance
+    - Display data in a Shiny App
+- Structure a project using both R and Python.
+
+
+
