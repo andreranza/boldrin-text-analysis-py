@@ -45,7 +45,7 @@ def get_video_id(service_obj, upload_id):
     # list next returns None when there is not
     while True:
         pl_req = service_obj.playlistItems().list_next(pl_req, pl_resp)
-        if pl_req != None:
+        if pl_req is not None:
             pl_resp = try_execute(pl_req)
             id = pl_resp["items"][0]["snippet"]["resourceId"]["videoId"]
             video_id.append(id)
