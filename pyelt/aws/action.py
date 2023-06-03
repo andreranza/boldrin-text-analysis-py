@@ -12,16 +12,16 @@ def start_ec2(path='infra/ec2.json'):
     # Do a dryrun first to verify permissions
     try:
         ec2.start_instances(InstanceIds=[id], DryRun=True)
-    except ClientError as e:
-        if 'DryRunOperation' not in str(e):
+    except ClientError as err:
+        if 'DryRunOperation' not in str(err):
             raise
 
     # Dry run succeeded, run start_instances without dryrun
     try:
         response = ec2.start_instances(InstanceIds=[id], DryRun=False)
         print(response)
-    except ClientError as e:
-        print(e)
+    except ClientError as err:
+        print(err)
 
 def stop_ec2(path='infra/ec2.json'):
     ec2_specs = load_json(path)
@@ -31,16 +31,16 @@ def stop_ec2(path='infra/ec2.json'):
     # Do a dryrun first to verify permissions
     try:
         ec2.stop_instances(InstanceIds=[id], DryRun=True)
-    except ClientError as e:
-        if 'DryRunOperation' not in str(e):
+    except ClientError as err:
+        if 'DryRunOperation' not in str(err):
             raise
 
     # Dry run succeeded, call stop_instances without dryrun
     try:
         response = ec2.stop_instances(InstanceIds=[id], DryRun=False)
         print(response)
-    except ClientError as e:
-        print(e)
+    except ClientError as err:
+        print(err)
 
 def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'}):
     """Create an S3 bucket
@@ -77,8 +77,8 @@ def create_bucket(paths={'s3': 'infra/s3.json', 'creds': 'infra/pipeline.config'
             CreateBucketConfiguration=location#,
             #GrantFullControl=account_full
         )
-    except ClientError as e:
-        logging.error(e)
+    except ClientError as err:
+        logging.error(err)
         return False
     return True
 
@@ -117,7 +117,7 @@ def upload_file(file_name, paths={'s3': 'infra/s3.json', 'creds': 'infra/pipelin
             bucket_name,
             object_name
         )
-    except ClientError as e:
-        logging.error(e)
+    except ClientError as err:
+        logging.error(err)
         return False
     return True

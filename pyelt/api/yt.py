@@ -13,8 +13,8 @@ def try_execute(request_obj):
     """Execute the request and get a response."""
     try:
         ch_resp = request_obj.execute()
-    except HttpError as e:
-        print('Error response status code: {0}, reason: {1}'.format(e.status_code, e.error_details))
+    except HttpError as err:
+        print('Error response status code: {0}, reason: {1}'.format(err.status_code, err.error_details))
     return ch_resp
 
 
