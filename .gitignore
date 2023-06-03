@@ -13,3 +13,6 @@ pyelt/scripts/exp.py
 infra/*.json
 infra/*.config
 
+# data
+data/
+
