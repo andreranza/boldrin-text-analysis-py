@@ -55,13 +55,6 @@ for id in enumerate(video_id):
     # get response in JSON format
     video_json = yt.get_response(service_obj=youtube, video_id=id)
 
-# load credentials
-parser = configparser.ConfigParser()
-parser.read("scripts/pipeline.config")
-access_key = parser.get("aws_boto_credentials", "access_key")
-secret_key = parser.get("aws_boto_credentials", "secret_key")
-bucket_name = parser.get("aws_boto_credentials", "bucket_name")
-
 s3 = boto3.client("s3", aws_access_key_id=access_key, aws_secret_access_key=secret_key)
 logging.info("Connected to S3 bucket: {0}".format(bucket_name))
 
