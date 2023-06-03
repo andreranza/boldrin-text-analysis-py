@@ -49,19 +49,6 @@ logging.info('Got the upload id')
 video_id = yt.get_video_id(service_obj=youtube, upload_id=upload_id)
 logging.info('Retrieved list of videos id')
 
-# retrieve data records from the 'items' node of json response recursively
-
-
-def drill_json_down(json_file):
-    for k, v in json_file.items():
-        if not isinstance(v, dict):
-            record = (k, v)
-            yield record
-        else:
-            for d in drill_json_down(v):
-                yield d
-
-
 # iterate through the ids to get a json response
 dataframes = list()
 for i, id in enumerate(video_id):
