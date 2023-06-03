@@ -22,8 +22,8 @@ def call_api(yt_key, service="youtube", version="v3"):
     :return: A service object
     """
     try:
-        build(serviceName=service, version=version, developerKey=yt_key)
-        logging.info("Call YouTube API Service")
+        service_obj=build(serviceName=service, version=version, developerKey=yt_key)
+        return service_obj
     except HttpError as err:
         print(err)
 
