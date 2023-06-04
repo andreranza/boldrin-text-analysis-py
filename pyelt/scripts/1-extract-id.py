@@ -3,6 +3,7 @@ import logging
 import boto3
 from pyelt.utils.read import read_yt_key
 from pyelt.api import yt
+from pyelt.aws import actions
 
 today = datetime.date(datetime.today())
 
@@ -33,15 +34,12 @@ video_id = yt.get_video_id(service_obj=youtube_service, upload_id=upload_id)
 logging.info("Retrieved list of videos id")
 
 # iterate through the ids to get a json response
-for vid_id in enumerate(video_id):
+for vid_id in video_id:
     # get response in JSON format
     video_json = yt.get_response(service_obj=youtube_service, video_id=vid_id)
 
-s3 = boto3.client("s3", aws_access_key_id=access_key, aws_secret_access_key=secret_key)
-logging.info("Connected to S3 bucket: {0}".format(bucket_name))
-
-# upload file
-s3.upload_file(export_file, bucket_name, export_file)
-logging.info("Uploaded output to S3 bucket: {0}".format(bucket_name))
+    # upload file
+    actions.upload_file(file_name=vid_id)
+    logging.info("Upload Video Id to S3: {0}".format(vid_id))
 
 logging.info("Data extraction concluded")
