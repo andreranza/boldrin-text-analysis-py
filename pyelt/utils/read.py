@@ -31,3 +31,17 @@ def read_yt_key(path="infra/youtube_api_key.txt"):
     except FileNotFoundError:
         logging.warning("Not able to API credentials id locally")
         yt_key = str(input("Please, provide the API service key: ")).rstrip()
+
+def read_channel_id(path="infra/channel-id.txt"):
+    """Read Channel ID to choose on which channel to run the pipeline
+
+    :param path: Path to channel id
+    :return: str
+    """
+    try:
+        with open(path, encoding="UTF-8") as file:
+            channel_id = file.read().rstrip()
+            return channel_id
+    except FileNotFoundError:
+        logging.warning("Not able to retrieve channel id")
+        channel_id = str(input("Please, provide the channel id: ")).rstrip()

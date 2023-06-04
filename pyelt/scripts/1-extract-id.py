@@ -1,6 +1,6 @@
 from datetime import datetime
 import logging
-from pyelt.utils.read import read_yt_key
+from pyelt.utils.read import read_yt_key, read_channel_id
 from pyelt.api import yt
 from pyelt.aws import actions
 
@@ -13,19 +13,12 @@ logging.basicConfig(
     format=" %(asctime)s - %(levelname) s - %(message)s",
 )
 
-# retrieve channel id
-try:
-    with open("channel_id.txt") as f:
-        CH_ID = f.read().rstrip()
-except FileNotFoundError:
-    logging.warning("Not able to retrieve channel id")
-    CH_ID = str(input("Please, provide the channel id: ")).rstrip()
-
 yt_key = read_yt_key(path="infra/youtube_api_key.txt")
 youtube_service = yt.call_api(yt_key, "youtube", "v3")
+channel_id = read_channel_id(path="infra/channel-id.txt")
 
 # id pointing to the playlist of uploaded video
-upload_id = yt.get_upload_id(service_obj=youtube_service, channel_id=CH_ID)
+upload_id = yt.get_upload_id(service_obj=youtube_service, channel_id=channel_id)
 logging.info("Got the upload id")
 
 # list of id, one for each uploaded video in a given channel
