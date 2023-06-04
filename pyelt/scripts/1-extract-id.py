@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 from pyelt.utils.read import read_yt_key, read_channel_id
 from pyelt.api import yt
-from pyelt.aws import actions
+from pyelt.aws import action
 
 today = datetime.date(datetime.today())
 
@@ -30,7 +30,7 @@ for vid_id in video_id:
     # get response in JSON format
     video_json = yt.get_response(service_obj=youtube_service, video_id=vid_id)
     # upload file
-    actions.upload_file(file_name=vid_id)
+    action.upload_file(file_name=vid_id)
     logging.info("Upload Video Id to S3: {0}".format(vid_id))
 
 logging.info("Data extraction concluded")
